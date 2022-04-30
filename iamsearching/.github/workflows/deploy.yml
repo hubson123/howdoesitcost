@@ -1,0 +1,25 @@
+name: deploy website
+on:
+  pull_request:
+    branches: [ main ]
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: amondnet/vercel-action@v19
+          with:
+            node-version: 14      
+      - run: yarn install --frozen-lockfile
+      - run: yarn test
+      - run: yarn run build
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }} 
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          vercel-args: '--prod' 
+          vercel-org-id: ${{ secrets.ORG_ID}}  
+          vercel-project-id: ${{ secrets.PROJECT_ID}} 
+          working-directory: ./sub-directory 
+          alias-domains: |
+            staging.react.vercel-action.howdoesitcost.vercel.app
+            pr-{{PR_NUMBER}}.vercel-action.howdoesitcost.vercel.app
