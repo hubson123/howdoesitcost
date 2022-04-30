@@ -1,4 +1,10 @@
+import SearchForm from "./SearchForm";
+
 const HomePage = () => {
-  return <></>;
+  return (
+    <>
+      <SearchForm />
+    </>
+  );
 };
 export default HomePage;
